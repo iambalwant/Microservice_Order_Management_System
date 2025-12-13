@@ -1,20 +1,17 @@
 package com.orderservice.service;
 
-import com.orderservice.dto.InventoryResponse;
-import com.orderservice.dto.OrderLineItemsDto;
-import com.orderservice.dto.OrderRequest;
-import com.orderservice.dto.OrderResponse;
+import com.orderservice.model.dto.InventoryResponse;
+import com.orderservice.model.dto.OrderLineItemsDto;
+import com.orderservice.model.dto.OrderRequest;
 import com.orderservice.model.Order;
 import com.orderservice.model.OrderLineItems;
 import com.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

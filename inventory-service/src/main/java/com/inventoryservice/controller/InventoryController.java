@@ -1,6 +1,6 @@
 package com.inventoryservice.controller;
 
-import com.inventoryservice.dto.InventoryResponse;
+import com.inventoryservice.model.dto.InventoryResponse;
 import com.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

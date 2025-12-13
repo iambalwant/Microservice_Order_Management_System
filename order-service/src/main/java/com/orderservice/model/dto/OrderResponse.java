@@ -1,4 +1,4 @@
-package com.orderservice.dto;
+package com.orderservice.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderRequest {
-    private List<OrderLineItemsDto> orderLineItemsListDto ;
+public class OrderResponse {
+    private String orderNumber ;
+    private List<OrderLineItemsDto> orderLineItemsDtoList ;
 }
