@@ -1,5 +1,6 @@
 package com.productservice.service;
 
+import com.productservice.config.constant.AppContants;
 import com.productservice.exception.GlobalExceptionHandler;
 import com.productservice.exception.ResourceNotFoundException;
 import com.productservice.model.dto.request.CreateProductRequestDto;
@@ -8,6 +9,8 @@ import com.productservice.model.dto.response.GetProductResponseDto;
 import com.productservice.model.entity.ProductEntity;
 import com.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.ProviderNotFoundException;
@@ -19,8 +22,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
 
-
+    private final KafkaTemplate<String,Integer> kafkaTemplate;
     private final ProductRepository productRepository;
+
 
     public List<GetProductResponseDto> getProduct(){
         List<ProductEntity> allProducts = productRepository.findAll();
@@ -57,7 +61,14 @@ public class ProductService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        return productRepository.save(product);
+        ProductEntity savedProduct = productRepository.save(product);
+
+        kafkaTemplate.send(
+                AppContants.PRODUCT_CREATED_TOPIC,
+                savedProduct.getProductId()
+        );
+
+        return savedProduct;
     }
 
     public ProductEntity updateProduct(UpdateProductRequestDto dto,Integer id){

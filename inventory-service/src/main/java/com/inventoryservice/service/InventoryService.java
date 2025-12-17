@@ -1,12 +1,9 @@
 package com.inventoryservice.service;
 
 
-import com.inventoryservice.controller.InventoryController;
-import com.inventoryservice.model.dto.request.CreateInventoryRequestDto;
 import com.inventoryservice.model.entity.InventoryEntity;
 import com.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,11 +14,11 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
-    public InventoryEntity createInventory(CreateInventoryRequestDto dto){
+    public InventoryEntity createInventory(Integer id){
 
         InventoryEntity inventoryEntity = InventoryEntity.builder()
-                .productId(dto.getProductId())
-                .quantityAvailable(dto.getQuantityAvailable())
+                .productId(id)
+                .quantityAvailable(0)
                 .updatedAt(LocalDateTime.now())
                 .build();
 
