@@ -2,6 +2,7 @@ package com.inventoryservice.model.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class InventoryEntity {
     )
     private Integer inventoryId;
     private Integer productId;
+    @PositiveOrZero(message = "quantity must be positive")
     private Integer quantityAvailable;
     private LocalDateTime updatedAt;
 
