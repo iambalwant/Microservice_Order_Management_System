@@ -1,19 +1,22 @@
 server:
   port: 9091
 
+grpc:
+  server:
+    port: 9901
+
 spring:
   application:
     name: product-service
   kafka:
-     producer:
-         bootstrap-server: localhost:9092
-         key-serializer: org.apache.kafka.common.serialization.StringSerializer
-         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
   datasource:
     url: jdbc:postgresql://localhost:5432/product
     username: admin
     password: password
-
   jpa:
     hibernate:
       ddl-auto: update

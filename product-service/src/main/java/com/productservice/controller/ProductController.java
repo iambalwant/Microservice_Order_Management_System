@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -70,9 +71,11 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Boolean> deleteproduct(@PathVariable("id") Integer id){
+    public ResponseEntity<Boolean> deleteProduct(@PathVariable("id") Integer id){
          productService.deleteProduct(id);
          return new ResponseEntity<>(true,HttpStatus.OK);
     }
+
+
 
 }

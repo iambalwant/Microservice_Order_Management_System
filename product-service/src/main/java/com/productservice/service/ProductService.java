@@ -1,5 +1,6 @@
 package com.productservice.service;
 
+import com.example.grpc.ProductProto;
 import com.productservice.config.constant.AppContants;
 import com.productservice.exception.GlobalExceptionHandler;
 import com.productservice.exception.ResourceNotFoundException;
@@ -9,10 +10,10 @@ import com.productservice.model.dto.response.GetProductResponseDto;
 import com.productservice.model.entity.ProductEntity;
 import com.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.nio.file.ProviderNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductService{
 
     private final KafkaTemplate<String,Integer> kafkaTemplate;
     private final ProductRepository productRepository;
@@ -80,6 +81,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    //review ones again
     public boolean deleteProduct(Integer id){
         try {
             productRepository.deleteById(id);
@@ -87,6 +89,7 @@ public class ProductService {
         } catch (Exception e) {
             return false;
         }
-
     }
+
+
 }
