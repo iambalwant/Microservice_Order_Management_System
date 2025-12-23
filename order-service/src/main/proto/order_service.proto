@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package order;
+package product;
 
 option java_multiple_files = true;
 option java_package = "com.example.grpc";
-option java_outer_classname = "OrderProto";
+option java_outer_classname = "ProductProto";
 
 message OrderRequest {
   int32 productId = 1;
@@ -14,6 +14,6 @@ message OrderResponse {
   string productPrice = 1;
 }
 
-service OrderService {
+service ProductService {
   rpc ProductPrice (OrderRequest) returns (OrderResponse);
 }
