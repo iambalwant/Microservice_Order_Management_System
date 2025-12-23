@@ -18,7 +18,7 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-    // 🔹 String consumer (for plain string producers)
+    // String consumer (for plain string producers)
     @Bean
     public ConsumerFactory<String, String> stringConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -41,7 +41,7 @@ public class KafkaConfig {
         return factory;
     }
 
-    // 🔹 JSON consumer (for DTO messages)
+    // JSON consumer (for DTO messages)
     @Bean
     public ConsumerFactory<String, KafkaInventoryUpdateRequestDto> jsonConsumerFactory() {
 

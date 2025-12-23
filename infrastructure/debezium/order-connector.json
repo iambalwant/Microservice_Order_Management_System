@@ -1,0 +1,30 @@
+{
+  "name": "order-postgres-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+
+    "database.hostname": "orderPg",
+    "database.port": "5432",
+    "database.user": "admin",
+    "database.password": "password",
+    "database.dbname": "order",
+
+    "database.server.name": "orderdb",
+    "topic.prefix": "order",
+
+    "table.include.list": "public.orders",
+
+    "plugin.name": "pgoutput",
+
+    "slot.name": "order_slot",
+    "publication.autocreate.mode": "filtered",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": false,
+
+    "snapshot.mode": "initial",
+
+    "tombstones.on.delete": "false"
+  }
+}

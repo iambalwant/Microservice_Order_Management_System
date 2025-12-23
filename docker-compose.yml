@@ -13,6 +13,7 @@ services:
     networks:
       - backend
     restart: unless-stopped
+    command: ["postgres", "-c", "wal_level=logical"]
 
   pgadmin:
     container_name: orderPgadmin
@@ -57,6 +58,26 @@ services:
     ports:
       - "127.0.0.1:9983:8080"
     restart: unless-stopped
+
+  debezium:
+    image: debezium/connect:2.5
+    container_name: debezium
+    depends_on:
+      - kafka
+      - postgres
+    ports:
+      - "8083:8083"
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+      STATUS_STORAGE_TOPIC: connect_statuses
+
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
 
 networks:
   backend:
