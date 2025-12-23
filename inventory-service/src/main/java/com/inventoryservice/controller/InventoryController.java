@@ -2,6 +2,7 @@ package com.inventoryservice.controller;
 
 
 import com.inventoryservice.config.constant.AppConstant;
+import com.inventoryservice.model.dto.request.KafkaInventoryUpdateRequestDto;
 import com.inventoryservice.model.dto.responce.InventoryUpdatedResponceDto;
 import com.inventoryservice.model.entity.InventoryEntity;
 import com.inventoryservice.service.InventoryService;
@@ -21,10 +22,28 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @KafkaListener(topics= AppConstant.PRODUCT_CREATED_TOPIC,groupId = AppConstant.GROUP_ID)
+    @KafkaListener(topics= AppConstant.PRODUCT_CREATED_TOPIC,
+            groupId = AppConstant.GROUP_ID,
+            containerFactory = "stringKafkaFactory"
+    )
     public void createInventory(Integer id){
         InventoryEntity newInventory = inventoryService.createInventory(id);
         log.info("New InventoryCreated: {}", newInventory);
+    }
+
+    @KafkaListener(topics = AppConstant.INVENTORY_UPDATE_TOPIC,
+            groupId = AppConstant.GROUP_ID,
+            containerFactory = "jsonKafkaFactory"
+    )
+    public void inventoryUpdate(KafkaInventoryUpdateRequestDto event) {
+
+        InventoryEntity inventoryUpdated =
+                inventoryService.updateInventory(
+                        event.getProductId(),
+                        event.getQuantity()
+                );
+
+        log.info("Inventory updated: {}", inventoryUpdated);
     }
 
     @GetMapping("{id}")

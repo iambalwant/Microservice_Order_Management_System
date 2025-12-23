@@ -28,6 +28,17 @@ public class InventoryService {
 
     }
 
+    public InventoryEntity updateInventory(Integer id,Integer quantity){
+        InventoryEntity inventory = inventoryRepository.findByProductId(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Product don't exist" + id)
+                );
+        int updatedQuantity = inventory.getQuantityAvailable() - quantity;
+        inventory.setQuantityAvailable(updatedQuantity);
+        inventory.setUpdatedAt(LocalDateTime.now());
+        return inventoryRepository.save(inventory);
+    }
+
     public Integer getProductQuantity(Integer id){
         InventoryEntity inventoryEntity = inventoryRepository.findByProductId(id).orElseThrow(
                 () -> new ResourceNotFoundException("Product Don't not exist" + id));

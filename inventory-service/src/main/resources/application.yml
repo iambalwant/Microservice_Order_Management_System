@@ -4,13 +4,11 @@ server:
 spring:
   application:
     name: inventory-service
-  spring:
-      kafka:
-         consumer:
-            group-id: group-id
-         auto-offset-reset: earliest
-         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: inventory-group
+      auto-offset-reset: earliest
 
   datasource:
     url: jdbc:postgresql://localhost:5432/inventory
