@@ -1,9 +1,18 @@
 server:
   port: 9094
 
+grpc:
+  server:
+    port: 9901
+
 spring:
   application:
     name: payment-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: payment-group
+      auto-offset-reset: earliest
 
   datasource:
     url: jdbc:postgresql://localhost:5432/payment

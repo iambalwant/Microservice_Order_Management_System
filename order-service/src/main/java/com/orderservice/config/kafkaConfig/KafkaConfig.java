@@ -11,10 +11,16 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfig {
 
     @Bean
-    public NewTopic topic(){
+    public NewTopic inventoryTopic(){
         return TopicBuilder
                 .name(AppContants.INVENTORY_UPDATE_TOPIC)
                 .build();
     }
 
+    @Bean
+    public NewTopic paymentTopic(){
+        return TopicBuilder
+                .name(AppContants.PAYMENT_CREATE_TOPIC)
+                .build();
+    }
 }

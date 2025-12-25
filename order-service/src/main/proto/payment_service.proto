@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package payment;
+
+option java_multiple_files = true;
+option java_package = "com.example.grpc";
+option java_outer_classname = "PaymentProto";
+
+message PaymentRequest {
+  int32 orderId = 1;
+}
+
+message PaymentResponse {
+  string paymentAmount = 1;
+  
+}
+
+service PaymentService {
+  rpc ProductPrice (PaymentRequest) returns (PaymentResponse);
+}

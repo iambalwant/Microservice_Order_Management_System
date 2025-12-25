@@ -46,4 +46,6 @@ public class OrderEventConsumer {
             log.info("notification send {} ",event);
         }
     }
+
+
 }

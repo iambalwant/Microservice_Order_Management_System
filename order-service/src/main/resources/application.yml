@@ -1,6 +1,8 @@
 server:
   port: 9098
 grpc:
+  server:
+    port: 9908
   client:
     msProductService:
       address: "static://localhost:9901"

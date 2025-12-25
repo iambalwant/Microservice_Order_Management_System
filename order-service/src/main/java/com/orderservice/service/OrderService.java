@@ -6,6 +6,7 @@ import com.example.grpc.OrderResponse;
 import com.example.grpc.ProductServiceGrpc;
 import com.orderservice.config.constant.AppContants;
 import com.orderservice.model.dto.request.KafkaInventoryUpdateRequestDto;
+import com.orderservice.model.dto.request.KafkaPaymentCreateRequestDto;
 import com.orderservice.model.entity.OrderEntity;
 import com.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,9 @@ public class OrderService{
     @GrpcClient("msProductService")
     private ProductServiceGrpc.ProductServiceBlockingStub serviceBlockingStub;
 
-    private final KafkaTemplate<String,KafkaInventoryUpdateRequestDto> kafkaTemplate;
+    private final KafkaTemplate<String,KafkaInventoryUpdateRequestDto> kafkaInventory;
+    private final KafkaTemplate<String,KafkaPaymentCreateRequestDto> kafkaPayment;
+
 
     private final OrderRepository orderRepository;
 
@@ -49,11 +52,18 @@ public class OrderService{
 
         orderRepository.save(newOrder);
         KafkaInventoryUpdateRequestDto value = new KafkaInventoryUpdateRequestDto(productId, quantity);
-        kafkaTemplate.send(
+        KafkaPaymentCreateRequestDto payment = new KafkaPaymentCreateRequestDto(newOrder.getOrderId(),paymentAmount);
+        kafkaInventory.send(
                 AppContants.INVENTORY_UPDATE_TOPIC,
                 String.valueOf(productId),
                 value
         );
+        kafkaPayment.send(
+                AppContants.PAYMENT_CREATE_TOPIC,
+                String.valueOf(newOrder.getOrderId()),
+                payment
+        );
+
     }
 
 
