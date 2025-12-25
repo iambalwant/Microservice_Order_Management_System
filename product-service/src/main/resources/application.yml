@@ -5,6 +5,11 @@ grpc:
   server:
     port: 9901
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
 spring:
   application:
     name: product-service
