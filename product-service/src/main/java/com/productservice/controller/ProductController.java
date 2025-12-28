@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -35,6 +36,7 @@ public class ProductController {
         return new ResponseEntity<>(productByID, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CreateProductResponseDto> createProduct(
             @Valid @RequestBody CreateProductRequestDto dto) {
@@ -53,7 +55,7 @@ public class ProductController {
                 .body(response);
     }
 
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping("{id}")
     public ResponseEntity<CreateProductResponseDto> updateProduct(
             @Valid @RequestBody UpdateProductRequestDto dto, @PathVariable("id") Integer id){
@@ -70,6 +72,7 @@ public class ProductController {
                 .body(response);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<Boolean> deleteProduct(@PathVariable("id") Integer id){
          productService.deleteProduct(id);

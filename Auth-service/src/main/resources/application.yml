@@ -22,8 +22,8 @@ spring:
 
 jwt:
   secret: s9NfKZp+YkE3ZyFJrC9Y2fJX9JZq8aH1m7R9qJtQ9Z1Yq8B1xZ8W6M3GJw==
-  expireMs: 120000
-  refrEshexpireMs: 120000
+  expireMs: 900000
+  refrEshexpireMs: 900000
 
 eureka:
   client:

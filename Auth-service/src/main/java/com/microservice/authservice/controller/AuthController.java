@@ -60,12 +60,14 @@ public class AuthController {
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
-        if(userService.existsByUsername(username)){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        if (userService.existsByUsername(username)) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if(userService.existsByEmail(email)){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken!"));
+        if (userService.existsByEmail(email)) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error: Email is already taken!"));
         }
 
         User user = new User();
@@ -73,38 +75,37 @@ public class AuthController {
         user.setUsername(username);
         user.setPassword(encoder.encode(password));
 
-        if (strRoles != null) {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "ROLE_ADMIN":
-                        Role adminRole = null;
+        // ✅ FIX STARTS HERE
+        if (strRoles != null && !strRoles.isEmpty()) {
 
-                        if(roleService.findByName(ERole.ROLE_ADMIN).isEmpty()){
-                            adminRole = new Role(ERole.ROLE_ADMIN);
-                        }else{
-                            adminRole = roleService.findByName(ERole.ROLE_ADMIN)
-                                    .orElseThrow(() -> new RoleException("Error: Admin Role is not found."));
-                        }
+            for (String roleStr : strRoles) {
 
-                        roles.add(adminRole);
-
-                        break;
-                    default:
-                        Role userRole = null;
-
-                        if(roleService.findByName(ERole.ROLE_USER).isEmpty()){
-                            userRole = new Role(ERole.ROLE_USER);
-                        }else{
-                            userRole = roleService.findByName(ERole.ROLE_USER)
-                                    .orElseThrow(() -> new RoleException("Error: User Role is not found."));
-                        }
-
-                        roles.add(userRole);
+                ERole roleEnum;
+                try {
+                    roleEnum = ERole.valueOf(roleStr);
+                } catch (IllegalArgumentException ex) {
+                    return ResponseEntity.badRequest()
+                            .body(new MessageResponse("Error: Invalid role " + roleStr));
                 }
-            });
-        }else{
-            roleService.findByName(ERole.ROLE_USER).ifPresentOrElse(roles::add, () -> roles.add(new Role(ERole.ROLE_USER)));
+
+                Role role = roleService.findByName(roleEnum)
+                        .orElseThrow(() ->
+                                new RoleException("Error: Role " + roleEnum + " is not found.")
+                        );
+
+                roles.add(role);
+            }
+
+        } else {
+            // default ROLE_USER
+            Role userRole = roleService.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() ->
+                            new RoleException("Error: Role USER is not found.")
+                    );
+
+            roles.add(userRole);
         }
+        // ✅ FIX ENDS HERE
 
         user.setRoles(roles);
         userService.saveUser(user);
