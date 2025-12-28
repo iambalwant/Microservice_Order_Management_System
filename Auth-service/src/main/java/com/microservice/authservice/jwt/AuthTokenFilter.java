@@ -32,6 +32,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         try {
 
+            //parseJwt() explicitly reads the header: request.getHeader("Authorization");
             String jwt = parseJwt(request);
             LOGGER.error("AuthTokenFilter | doFilterInternal | jwt: {}", jwt);
 
