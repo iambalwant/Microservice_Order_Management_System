@@ -31,3 +31,21 @@ spring:
 
 jwt:
   secret: s9NfKZp+YkE3ZyFJrC9Y2fJX9JZq8aH1m7R9qJtQ9Z1Yq8B1xZ8W6M3GJw==
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metric, prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  observations:
+    key-values:
+      application: inventory-service
+  tracing:
+    sampling:
+      probability: 1.0

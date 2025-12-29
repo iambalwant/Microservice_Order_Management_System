@@ -1,6 +1,6 @@
 package com.microservices.jwt;
 
-import com.productservice.jwt.JwtUtils;
+import com.microservices.jwt.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

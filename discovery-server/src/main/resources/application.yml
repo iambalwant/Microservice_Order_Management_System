@@ -9,3 +9,21 @@ eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metric, prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  observations:
+    key-values:
+      application: eureka-server
+  tracing:
+    sampling:
+      probability: 1.0
